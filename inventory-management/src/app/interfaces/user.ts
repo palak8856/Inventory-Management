@@ -3,5 +3,6 @@ export interface User {
     email:string,
     phone:string,
     address:string,
-    pinCode:string
+    pinCode:string,
+    role:string
 }

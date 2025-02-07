@@ -9,6 +9,7 @@ import { AllProductsComponent } from './products/all-products/all-products.compo
 import { CartComponent } from './products/cart/cart.component';
 import { OrdersComponent } from './products/orders/orders.component';
 import { HomeComponent } from './home/home/home.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,9 @@ import { HomeComponent } from './home/home/home.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
