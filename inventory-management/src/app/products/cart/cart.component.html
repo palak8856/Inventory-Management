@@ -1,1 +1,9 @@
-<p>cart works!</p>
+<div>
+    <div *ngFor="let item of CartItems">
+        <p>{{item.name}}</p>
+        <button (click)="increaseQuantity(item)">+</button>
+        <span>{{item.quantity}}</span>
+        <button (click)="decreaseQuantity(item)">-</button>
+        <button (click)="checkout(item)">Checkout</button>
+    </div>
+</div>

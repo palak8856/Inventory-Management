@@ -11,7 +11,6 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class LoginComponent implements OnInit{
 loginForm!:FormGroup;
-isLoginmode!: boolean;
 loggedInUser!:User;
 
 constructor(private formBuilder:FormBuilder, private userService: UserService, private router:Router){};
@@ -23,12 +22,8 @@ ngOnInit(): void {
   })
 }
 
-login(){
-this.isLoginmode=true;
-}
-
 register(){
-this.isLoginmode=false;
+  this.router.navigate(["/register"]);
 }
 
 onSubmit(){
@@ -37,7 +32,6 @@ if(this.loginForm.invalid){return;}
 const email=this.loginForm.value.email;
 const password=this.loginForm.value.password;
 
-if(this.isLoginmode){
   this.userService.login(email,password).subscribe(
     (response)=>console.log(response),
     (error)=>console.log(error)
@@ -51,13 +45,13 @@ if (user) {
 else {
     alert('Invalid email or password'); 
   }
-}
-else{ //register
-  this.userService.register(email,password).subscribe(
-    (response)=>console.log(response),
-    (error)=>console.log(error)
-  );
-}
+
+// else{ //register
+//   this.userService.register(email,password).subscribe(
+//     (response)=>console.log(response),
+//     (error)=>console.log(error)
+//   );
+// }
 
 this.loginForm.reset();
 }
