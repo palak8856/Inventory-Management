@@ -10,15 +10,24 @@ import { ProductsService } from 'src/app/services/products.service';
 export class OrdersComponent implements OnInit{
 
   orders: Product[]=[];
+  userName!: string;
+  userRole!: string;
 
-  constructor(private productService:ProductsService){
-
-  }
+  constructor(private productService:ProductsService){};
 
   ngOnInit(): void {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    this.userName = user?.name;
+    this.userRole = user?.role;
     this.productService.getOrders().subscribe((products:Product[])=>{
       this.orders=products;
     })
   }
 
+  updateOrderStatus(order: Product, event: Event) {
+    const newStatus = (event.target as HTMLSelectElement).value;
+    order.status = newStatus;
+    this.productService.updateOrder(order);
+  }
+  
 }

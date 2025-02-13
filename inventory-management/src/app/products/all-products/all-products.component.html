@@ -2,5 +2,6 @@
     <div *ngFor="let product of productList">
         <h2>{{product.name}}</h2>
         <p>{{product.description}}</p>
+        <button (click)="view(product.id)">View</button>
     </div>
 </div>

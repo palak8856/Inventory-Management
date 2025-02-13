@@ -1,1 +1,13 @@
-<p>product works!</p>
+<div class="product" *ngIf="product">
+    <div>
+        <h2>{{product.name}}</h2>
+        <p>{{"Description: " + product.description}}</p>
+        <p>{{"Quantity: " + product.quantity}}</p>
+        <p>{{"Availability Status: " + product.status}}</p>
+        <button (click)="increaseQuantity(product)"  *ngIf="user?.role=='admin'">+</button>
+        <span>{{product.quantity}}</span>
+        <button (click)="decreaseQuantity(product)" [disabled]="product.quantity === 0">-</button>
+        <button (click)="addToCart(product.id)">Add To Cart</button>
+    </div>
+</div>
+

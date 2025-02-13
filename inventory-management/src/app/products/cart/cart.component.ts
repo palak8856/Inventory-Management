@@ -21,15 +21,11 @@ export class CartComponent implements OnInit{
     })
   }
 
-  increaseQuantity(item:Product){
-
-  }
-
-  decreaseQuantity(item:Product){
-
-  }
-
   checkout(item:Product){
+    this.productService.checkout(item);
+  }
 
+  buy(item:Product){
+    this.productService.buy(item);
   }
 }
