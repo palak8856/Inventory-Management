@@ -12,6 +12,15 @@ import { HomeComponent } from './home/home/home.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { ProductComponent } from './products/product/product.component';
+import { HttpClientModule } from '@angular/common/http';
+import { AddProductComponent } from './products/add-product/add-product.component';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { environment } from 'src/environments/environment';
+
+import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
+import { provideAuth, getAuth } from '@angular/fire/auth';
+import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 
 @NgModule({
   declarations: [
@@ -23,13 +32,19 @@ import { ProductComponent } from './products/product/product.component';
     OrdersComponent,
     HomeComponent,
     NavbarComponent,
-    ProductComponent
+    ProductComponent,
+    AddProductComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule,
+    AngularFireModule.initializeApp(environment.firebase), 
+    AngularFirestoreModule,
+    provideAuth(() => getAuth()),  // Provide Firebase Auth
+    provideFirestore(() => getFirestore()) 
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 import { Product } from 'src/app/interfaces/product';
 import { ProductsService } from 'src/app/services/products.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-all-products',
@@ -10,18 +12,28 @@ import { ProductsService } from 'src/app/services/products.service';
 })
 export class AllProductsComponent implements OnInit{
 productList:Product[]=[];
+isAdmin!:boolean;
 
-constructor(private productService:ProductsService, private router:Router){
+constructor(private productService:ProductsService, private router:Router,private userService: UserService,
+  private fireStore: AngularFirestore){
 
 }
 
-ngOnInit(): void {
+async ngOnInit(): Promise<void> {
   this.productService.getProductsObservable().subscribe((products:Product[])=>{
     this.productList=products;
   })
+  this.isAdmin = await this.userService.isAdmin(this.fireStore);
 }
 
-view(id:string){
+view(id:string|undefined){
   this.router.navigate(['/product', id]);
+}
+
+delete(product:Product){
+ 
+  if(product){
+    this.productService.deleteProduct(product);
+  } 
 }
 }

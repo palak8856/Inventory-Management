@@ -3,5 +3,6 @@
         <h2>{{product.name}}</h2>
         <p>{{product.description}}</p>
         <button (click)="view(product.id)">View</button>
+        <button (click)="delete(product)" *ngIf="isAdmin">Delete</button> 
     </div>
 </div>

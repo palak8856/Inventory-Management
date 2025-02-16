@@ -1,5 +1,5 @@
 <div class="orders-container">
-    <h2>Orders for {{ userName }}</h2>
+    <h2>Orders</h2>
   
     <table>
       <thead>
@@ -7,9 +7,10 @@
           <th>Product Name</th>
           <th>Description</th>
           <th>Quantity</th>
+          <th *ngIf="isAdminRole">Select Order Status</th>
           <th>Status</th>
           <th>Order Date & Time</th>
-          <th>Ordered By</th>
+          <th *ngIf="!isAdminRole">Ordered By</th>
         </tr>
       </thead>
       <tbody>
@@ -17,7 +18,7 @@
           <td>{{ order.name }}</td>
           <td>{{ order.description }}</td>
           <td>{{ order.quantity }}</td>
-          <td *ngIf="userRole === 'admin'">
+          <td *ngIf="isAdminRole"> 
               <select (change)="updateOrderStatus(order, $event)">
               <option value="Placed" [selected]="order.status === 'Placed'">Placed</option>
               <option value="Processing" [selected]="order.status === 'Processing'">Processing</option>
@@ -27,7 +28,7 @@
           </td>
           <td>{{ order.status }}</td>
           <td>{{ order.timestamp }}</td>
-          <td>{{ userName }}</td>
+          <td *ngIf="!isAdminRole">{{ userName }}</td>
         </tr>
       </tbody>
     </table>

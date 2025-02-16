@@ -1,5 +1,9 @@
 <ul>
-    <li><p>Welcome to the store</p></li>
+    <li class="nav-left"><p>Welcome to the store</p></li>
+    <div class="nav-right">
+    <li><button (click)="addProduct()">Add Product</button></li>
     <li><button (click)="goToCart()">Cart</button></li>
+    <li><button (click)="goToOrders()">Orders</button></li>
     <li><button (click)="logout()">Logout</button></li>
+    </div>
 </ul>

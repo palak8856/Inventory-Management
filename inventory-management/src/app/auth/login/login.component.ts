@@ -11,7 +11,6 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class LoginComponent implements OnInit{
 loginForm!:FormGroup;
-loggedInUser!:User;
 
 constructor(private formBuilder:FormBuilder, private userService: UserService, private router:Router){};
 
@@ -27,31 +26,29 @@ register(){
 }
 
 onSubmit(){
-if(this.loginForm.invalid){return;}
+if(this.loginForm.invalid){
+  alert('Enter valid credentials'); 
+  return;
+}
 
 const email=this.loginForm.value.email;
 const password=this.loginForm.value.password;
+const name = email.split('@')[0];
 
-  this.userService.login(email,password).subscribe(
-    (response)=>console.log(response),
-    (error)=>console.log(error)
-  );
+  this.userService.login(email, password).subscribe({
+    next: (response) => console.log(response), 
+    error: (error) => console.log(error), 
+  });
 
-const user = JSON.parse(localStorage.getItem('user') || '{}'); 
-if (user) {
-    localStorage.setItem('user', JSON.stringify(user));
-    this.router.navigate(['/home']);
-  } 
-else {
-    alert('Invalid email or password'); 
+  const user={
+    email:email,
+    password:password,
+    name:name,
+    isAuthenticated:true
   }
-
-// else{ //register
-//   this.userService.register(email,password).subscribe(
-//     (response)=>console.log(response),
-//     (error)=>console.log(error)
-//   );
-// }
+  
+    localStorage.setItem('user', JSON.stringify(user));
+    this.router.navigate(['home']);
 
 this.loginForm.reset();
 }

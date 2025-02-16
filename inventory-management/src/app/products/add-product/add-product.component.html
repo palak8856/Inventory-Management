@@ -1,0 +1,14 @@
+<form [formGroup]="productForm" (ngSubmit)="submit()">
+    <label for="productName">Product Name</label>
+    <input type="text" name="productName" id="productName" formControlName="productName"/>
+
+    <label for="productDescription">Product Description</label>
+    <input type="text" name="productDescription" id="productDescription" formControlName="productDescription"/>
+
+    <label for="quantity">Quantity</label>
+    <input type="number" name="quantity" id="quantity" formControlName="quantity" min="0"/>
+
+    <button [class.disabled]="this.productForm.invalid" type="submit">
+        Add Product
+    </button>
+</form>

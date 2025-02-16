@@ -17,4 +17,12 @@ logout(){
 goToCart(){
   this.router.navigate(["/cart"]);
 }
+
+addProduct(){
+  this.router.navigate(["/add-product"]);
+}
+
+goToOrders(){
+  this.router.navigate(["/orders"]);
+}
 }
