@@ -46,7 +46,7 @@ export class RegisterComponent {
   }
   
   localStorage.setItem('registeredUser', JSON.stringify(user));
-  this.router.navigate(["/home"]);
+  this.router.navigate(['home'],{replaceUrl:true});
   this.registerForm.reset();
   }
 }

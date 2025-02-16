@@ -24,6 +24,7 @@ async ngOnInit(): Promise<void> {
     this.productList=products;
   })
   this.isAdmin = await this.userService.isAdmin(this.fireStore);
+  console.log("Admin user", this.isAdmin);
 }
 
 view(id:string|undefined){

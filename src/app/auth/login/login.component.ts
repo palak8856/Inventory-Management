@@ -48,7 +48,7 @@ const name = email.split('@')[0];
   }
   
     localStorage.setItem('user', JSON.stringify(user));
-    this.router.navigate(['home']);
+    this.router.navigate(['home'],{replaceUrl:true});
 
 this.loginForm.reset();
 }
