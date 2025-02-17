@@ -32,9 +32,9 @@ view(id:string|undefined){
 }
 
 delete(product:Product){
- 
   if(product){
     this.productService.deleteProduct(product);
   } 
 }
+
 }

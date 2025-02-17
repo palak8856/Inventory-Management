@@ -1,55 +1,51 @@
-import { CanActivateFn, Router } from '@angular/router';
-import { inject } from '@angular/core';
-// import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Auth, getAuth } from '@angular/fire/auth';
-import { Firestore, collection, query, where, getDocs, getFirestore } from '@angular/fire/firestore';
-import { firstValueFrom } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { CanActivate,Router } from '@angular/router';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { Observable, of } from 'rxjs';
+import { filter, map, switchMap, take } from 'rxjs/operators';
 
-export const AuthGuard: CanActivateFn = async (route, state) => {
-  const router = inject(Router);
-  // const firestore = inject(AngularFirestore);
-  const firestore=getFirestore();
-  // const auth = inject(Auth);
-  const auth = getAuth();
-  const user = auth.currentUser;
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthGuard implements CanActivate {
+  constructor(
+    private router: Router,
+    private auth: AngularFireAuth,
+    private firestore: AngularFirestore,
+  ) {}
 
-  if (!user || !user.email) {
-    router.navigate(['/login']);
-    return false;
+  canActivate(): Observable<boolean>{
+    return this.auth.authState.pipe(
+      switchMap(user => {
+        if (!user || !user.email) {
+          console.log("User doesnt exist");
+          this.router.navigate(['/login']);
+          return of(false);
+        }
+        return this.checkUserInFirestore(user.email);
+      })
+    );
   }
-
-  const userEmail = user.email;
-
-  // try {
-  //   const userDoc = firestore.collection('users', (ref) => ref.where('email', '==', userEmail)).valueChanges();
-
-  //   const userData = await firstValueFrom(userDoc);
-  //   if (userData.length === 0) {
-  //     router.navigate(['/login']);
-  //     return false;
-  //   }
-
-  //   return true;
-  // } catch (error) {
-  //   console.error("Error checking user authentication:", error);
-  //   router.navigate(['/login']);
-  //   return false;
-  // }
-  try {
-    const usersRef = collection(firestore, 'users');
-    const q = query(usersRef, where('email', '==', user.email));
-    const querySnapshot = await getDocs(q);
-
-    if (querySnapshot.empty) {
-      router.navigate(['/login']);
-      return false;
-    }
-
-    return true;
-  } catch (error) {
-    console.error("Error checking user authentication:", error);
-    router.navigate(['/login']);
-    return false;
+  
+   checkUserInFirestore(email: string): Observable<boolean> {
+    return new Observable(observer => {
+      this.firestore.collection('users', ref => ref.where('email', '==', email))
+        .get()
+        .subscribe(snapshot => {
+          if (!snapshot.empty) {
+            observer.next(true);
+          } else {
+            this.router.navigate(['/login']);
+            console.log("User not found");
+            observer.next(false);
+          }
+          observer.complete();
+        }, error => {
+          console.log(error);
+          this.router.navigate(['/login']);
+          observer.next(false);
+        });
+    });
   }
-};
-
+}

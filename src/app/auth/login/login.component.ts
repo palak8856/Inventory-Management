@@ -35,10 +35,9 @@ const email=this.loginForm.value.email;
 const password=this.loginForm.value.password;
 const name = email.split('@')[0];
 
-  this.userService.login(email, password).subscribe({
-    next: (response) => console.log(response), 
-    error: (error) => console.log(error), 
-  });
+  this.userService.login(email, password).then(
+   (response) => console.log(response), 
+  ).catch((error)=>{console.log(error)});
 
   const user={
     email:email,
